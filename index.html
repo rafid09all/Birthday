@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday My Love 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #1a0033 0%, #2d1b69 50%, #667eea 100%);
+            min-height: 100vh;
+            position: relative;
+            color: #fff;
+            user-select: none;
+        }
+
+        /* Floating Hearts */
+        .hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 20px;
+            color: #ff69b4;
+            animation: float 6s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Screen 1 */
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            opacity: 1;
+            transition: opacity 1s ease;
+        }
+
+        .screen.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .tap-btn {
+            font-size: clamp(1.5rem, 5vw, 3rem);
+            padding: 20px 40px;
+            background: rgba(255, 105, 180, 0.2);
+            border: 2px solid #ff69b4;
+            border-radius: 50px;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            animation: pulse 2s infinite;
+        }
+
+        .tap-btn:hover {
+            background: rgba(255, 105, 180, 0.4);
+            transform: scale(1.05);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Birthday Message */
+        .birthday-title {
+            font-size: clamp(2rem, 8vw, 4rem);
+            margin-bottom: 2rem;
+            background: linear-gradient(45deg, #ff69b4, #ffd700, #ff1493);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 10px #ff69b4); }
+            to { filter: drop-shadow(0 0 20px #ff1493); }
+        }
+
+        /* Typing Effect */
+        .typing-text {
+            font-size: clamp(1rem, 4vw, 1.3rem);
+            line-height: 1.8;
+            max-width: 90%;
+            margin: 0 auto 2rem;
+            border-right: 3px solid #ff69b4;
+            white-space: pre-wrap;
+            overflow: hidden;
+            animation: typing 8s steps(60) forwards, blink 1s infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink {
+            0%, 50% { border-color: transparent; }
+            51%, 100% { border-color: #ff69b4; }
+        }
+
+        /* Memories Section */
+        .memories {
+            padding: 4rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .slider-container {
+            position: relative;
+            height: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(255, 105, 180, 0.3);
+            margin-bottom: 2rem;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .slide.active {
+            opacity: 1;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slider-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: #ff69b4;
+            transform: scale(1.2);
+        }
+
+        /* Surprise Button */
+        .surprise-btn {
+            display: block;
+            margin: 3rem auto;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 105, 180, 0.4);
+        }
+
+        .surprise-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 105, 180, 0.6);
+        }
+
+        /* Surprise Message */
+        .surprise-message {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transform: scale(0);
+            transition: all 0.5s ease;
+            opacity: 0;
+        }
+
+        .surprise-message.show {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        /* Final Love Message */
+        .love-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+        }
+
+        .love-section.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .love-forever {
+            font-size: clamp(2.5rem, 10vw, 5rem);
+            margin-bottom: 1rem;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .slider-container {
+                height: 300px;
+            }
+            
+            .memories {
+                padding: 2rem 1rem;
+            }
+        }
+
+        /* Music Player */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 105, 180, 0.2);
+            border: 2px solid #ff69b4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            z-index: 1001;
+            font-size: 1.5rem;
+        }
+
+        .music-player:hover {
+            background: rgba(255, 105, 180, 0.4);
+            transform: scale(1.1);
+        }
+
+        .music-player.playing {
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg) scale(1.1); }
+            100% { transform: rotate(360deg) scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Music Player -->
+    <div class="music-player" id="musicBtn" title="Toggle Music">🎵</div>
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" type="audio/wav">
+        <!-- Fallback romantic music URL - replace with your own -->
+        <!-- You can use: https://www.bensound.com/royalty-free-music/track/ukulele -->
+    </audio>
+
+    <!-- Floating Hearts -->
+    <div class="hearts" id="hearts"></div>
+
+    <!-- Screen 1: Tap to Open -->
+    <div class="screen active" id="screen1">
+        <h1 style="font-size: clamp(1.8rem, 6vw, 3.5rem); margin-bottom: 2rem;">For My Beautiful Love</h1>
+        <button class="tap-btn" id="tapBtn">Tap to open ❤️</button>
+    </div>
+
+    <!-- Screen 2: Birthday Celebration -->
+    <div class="screen" id="screen2">
+        <h1 class="birthday-title">Happy Birthday My Love 💕</h1>
+        <div class="typing-text" id="typingText"></div>
+        
+        <!-- Memories Section -->
+        <section class="memories">
+            <h2 style="font-size: 2rem; margin-bottom: 2rem; text-align: center;">Our Beautiful Memories 💖</h2>
+            <div class="slider-container">
+                <div class="slide active">
+                    <img src="https://images.unsplash.com/photo-1518621305637-3db5fd95cc90?w=800&h=400&fit=crop" alt="Memory 1" loading="lazy">
+                </div>
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&h=400&fit=crop" alt="Memory 2" loading="lazy">
+                </div>
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1517457373958-b7bdd4587206?w=800&h=400&fit=crop" alt="Memory 3" loading="lazy">
+                </div>
+                <div class="slide">
+                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=400&fit=crop" alt="Memory 4" loading="lazy">
+                </div>
+            </div>
+            <div class="slider-nav" id="sliderNav"></div>
+        </section>
+
+        <!-- Surprise Button -->
+        <button class="surprise-btn" id="surpriseBtn">Click for a surprise 🎁</button>
+        
+        <!-- Surprise Message -->
+        <div class="surprise-message" id="surpriseMsg">
+            <h3 style="margin-bottom: 1rem; color: #ff69b4;">💝 Special Surprise for You 💝</h3>
+            <p>Every moment with you feels like a dream. Today, I want you to know that you're not just my girlfriend—you're my everything. You've made me the happiest person alive, and I can't wait to create countless more memories together. This year, I'm planning something truly special... but that's our little secret for now! 😘</p>
+        </div>
+
+        <!-- Final Love Section -->
+        <section class="love-section" id="loveSection">
+            <h1 class="love-forever">I love you forever ❤️</h1>
+            <p style="font-size: 1.3rem; opacity: 0.9;">Thank you for being my everything</p>
+        </section>
+    </div>
+
+    <script>
+        // Romantic Message for typing effect
+        const romanticMessage = `My dearest love,
+
+From the moment you walked into my life, everything changed. Your smile lights up my darkest days, your laughter is my favorite melody, and your love is my greatest treasure.
+
+Today, on your special day, I want you to know how deeply, truly, and madly I love you. You've made every moment magical, every ordinary day extraordinary.
+
+Thank you for loving me, for being my partner, my best friend, and my greatest adventure. Here's to celebrating YOU—the most beautiful soul I've ever known.
+
+With all my heart, forever yours 💕`;
+
+        // Initialize
+        const screen1 = document.getElementById('screen1');
+        const screen2 = document.getElementById('screen2');
+        const tapBtn = document.getElementById('tapBtn');
+        const typingText = document.getElementById('typingText');
+        const musicBtn = document.getElementById('musicBtn');
+        const bgMusic = document.getElementById('bgMusic');
+        const surpriseBtn = document.getElementById('surpriseBtn');
+        const surpriseMsg = document.getElementById('surpriseMsg');
+        const loveSection = document.getElementById('loveSection');
+        const heartsContainer = document.getElementById('hearts');
+
+        let isMusicPlaying = false;
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        // Tap to open
+        tapBtn.addEventListener('click', () => {
+            screen1.classList.add('hidden');
+            setTimeout(() => {
+                screen1.style.display = 'none';
+                screen2.classList.remove('hidden');
+                createHearts();
+                startTyping();
+            }, 1000);
+        });
+
+        // Typing effect
+        function startTyping() {
+            typingText.textContent = romanticMessage;
+            typingText.style.animation = 'none';
+            setTimeout(() => {
+                typingText.style.animation = 'typing 8s steps(60) forwards, blink 1s infinite';
+            }, 100);
+        }
+
+        // Create floating hearts
+        function createHearts() {
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    createHeart();
+                }, i * 200);
+            }
+            setInterval(createHeart, 2000);
+        }
+
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = ['💖', '💕', '💗', '💝', '🌸'][Math.floor(Math.random() * 5)];
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            heartsContainer.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, 7000);
+        }
+
+        // Music control
+        musicBtn.addEventListener('click', () => {
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                musicBtn.textContent = '🎵';
+                musicBtn.classList.remove('playing');
+            } else {
+                bgMusic.play().catch(e => console.log('Autoplay prevented'));
+                musicBtn.textContent = '❤️';
+                musicBtn.classList.add('playing');
+            }
+            isMusicPlaying = !isMusicPlaying;
+        });
+
+        // Image slider
+        function initSlider() {
+            const navContainer = document.getElementById('sliderNav');
+            
+            // Create navigation dots
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'nav-dot';
+                if (i === 0) dot.classList.add('active');
+                dot.addEventListener('click', () => goToSlide(i));
+                navContainer.appendChild(dot);
+            }
+
+            // Auto slide
+            setInterval(nextSlide, 4000);
+        }
+
+        function goToSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            document.querySelectorAll('.nav-dot')[currentSlide].classList.remove('active');
+            
+            currentSlide = n;
+            slides[currentSlide].classList.add('active');
+            document.querySelectorAll('.nav-dot')[currentSlide].classList.add('active');
+        }
+
+        function nextSlide() {
+            goToSlide((currentSlide + 1) % totalSlides);
+        }
+
+        // Surprise button
+        surpriseBtn.addEventListener('click', () => {
+            surpriseMsg.classList.toggle('show');
+            surpriseBtn.style.display = 'none';
+            setTimeout(() => {
+                loveSection.classList.add('show');
+            }, 500);
+        });
+
+        // Touch/swipe for slider on mobile
+        let startX = 0;
+        const sliderContainer = document.querySelector('.slider-container');
+
+        sliderContainer.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+        });
+
+        sliderContainer.addEventListener('touchend', (e) => {
+            const endX = e.changedTouches[0].clientX;
+            const diff = startX - endX;
+            
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) {
+                    nextSlide();
+                } else {
+                    goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
+                }
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') {
+                goToSlide((currentSlide - 1 + totalSlides) % totalSlides);
+            } else if (e.key === 'ArrowRight') {
+                nextSlide();
+            }
+        });
+
+        // Initialize slider when screen 2 is visible
+        setTimeout(initSlider, 2000);
+
+        // Prevent zoom on iOS
+        document.addEventListener('touchstart', function(event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+       
